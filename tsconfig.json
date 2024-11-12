@@ -22,6 +22,15 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "sanity/schemaTypes/schema/journal.js",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "sanity/schemaTypes/schema/alumni.js",
+    "sanity/schemaTypes/schema/notice.js",
+    "sanity/schemaTypes/schema/magazine.js"
+  ],
   "exclude": ["node_modules"]
 }
