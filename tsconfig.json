@@ -30,7 +30,8 @@
     ".next/types/**/*.ts",
     "sanity/schemaTypes/schema/alumni.js",
     "sanity/schemaTypes/schema/notice.js",
-    "sanity/schemaTypes/schema/magazine.js"
+    "sanity/schemaTypes/schema/magazine.js",
+    "next.config.ts"
   ],
   "exclude": ["node_modules"]
 }
