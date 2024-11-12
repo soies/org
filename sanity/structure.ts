@@ -159,6 +159,14 @@ export const structure = (S: StructureBuilder) =>
         .icon(BookOpen)
         .child(S.documentList().title("Journals").filter('_type == "journal"')),
 
+      // Magazine Section
+      S.listItem()
+        .title("Magazines")
+        .icon(BookOpen)
+        .child(
+          S.documentList().title("Magazines").filter('_type == "magazine"')
+        ),
+
       // Divider
       S.divider(),
     ]);
