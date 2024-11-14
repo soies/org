@@ -26,7 +26,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <header className='flex h-20 items-center px-4 md:px-6 mt-6 sticky top-0 z-50 bg-white dark:bg-gray-950'>
+    <header className='flex h-24 items-center px-4 md:px-6  sticky top-0 z-50 bg-slate-100 dark:bg-gray-950'>
       {/* Logo */}
       <Link
         href='/'
@@ -35,7 +35,7 @@ export default function NavBar() {
         className='flex items-center'
       >
         <Image
-          src='/soies-logo.webp'
+          src='/soies.svg'
           alt='SOIES Nepal Logo'
           width={80}
           height={80}

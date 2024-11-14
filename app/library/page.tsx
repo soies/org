@@ -2,19 +2,40 @@
 import React from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
+// Define the background positions for each card to create sections of the single image
+const backgroundPositions = [
+  "0% 0%", // Top-left corner
+  "50% 0%", // Top-center
+  "100% 0%", // Top-right corner
+  "0% 50%", // Middle-left
+  "50% 50%", // Center
+  "100% 50%", // Middle-right
+  "0% 100%", // Bottom-left
+  "50% 100%", // Bottom-center
+  "100% 100%", // Bottom-right
+];
+
 export default function LibraryPage() {
   return (
-    <div className='container mx-auto py-10 p-4 m-4 w-3/4'>
+    <div className='container mx-auto py-10 p-4 m-4 w-4/5'>
       <h1 className='text-3xl font-bold text-center mb-8'>Library</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-        {data.semesters.map((semester) => (
+        {data.semesters.map((semester, index) => (
           <Card
             key={semester.semester}
-            className='hover:shadow-lg transition-shadow cursor-pointer'
+            className='hover:shadow-lg transition-shadow cursor-pointer overflow-hidden'
             onClick={() => window.open(semester.url, "_blank")}
           >
-            <CardContent className='flex items-center justify-center h-32'>
-              <CardTitle className='text-xl font-semibold text-center'>
+            <CardContent
+              className='flex items-center justify-center h-64 text-white transition-transform duration-500 ease-out transform hover:scale-105'
+              style={{
+                backgroundImage: "url(/library.webp)",
+                backgroundSize: "300% 300%", // Adjust to zoom in on the large image
+                backgroundPosition:
+                  backgroundPositions[index % backgroundPositions.length],
+              }}
+            >
+              <CardTitle className='text-xl font-semibold text-center bg-black bg-opacity-60 p-2 rounded'>
                 {semester.semester}
               </CardTitle>
             </CardContent>
