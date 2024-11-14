@@ -3,6 +3,7 @@ export interface TeamMember {
   name: string;
   position: string;
   photoUrl: string;
+  rank: number;
   description?: string;
 }
 
@@ -22,4 +23,13 @@ type TJournal = {
   description?: string;
   cover: string;
   resources: string;
+};
+
+export type TNotice = {
+  _id: string;
+  title: string;
+  description?: string;
+  pdf?: string;
+  imageUrl?: string;
+  link?: string;
 };

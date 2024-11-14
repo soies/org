@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { X } from "lucide-react"; // Using Lucide icon instead of custom SVG
 
 const fetchTeams = async (): Promise<TeamMember[]> => {
-  return await client.fetch(TEAMS_QUERY);
+  return await client.fetch(TEAMS_QUERY).then((res) => res);
 };
 
 export default function TeamMemberPage() {
@@ -146,36 +146,38 @@ export default function TeamMemberPage() {
 
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
         <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-          {teams.map((member) => (
-            <motion.li
-              layoutId={member._id}
-              key={member._id}
-              onClick={() => setActive(member)}
-              className='group relative cursor-pointer'
-            >
-              <motion.div
-                className='aspect-[3/4] rounded-2xl overflow-hidden'
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
+          {teams
+            .sort((a, b) => a.rank - b.rank)
+            .map((member) => (
+              <motion.li
+                layoutId={member._id}
+                key={member._id}
+                onClick={() => setActive(member)}
+                className='group relative cursor-pointer'
               >
-                <Image
-                  fill
-                  src={member.photoUrl}
-                  alt={member.name}
-                  className='object-cover object-center group-hover:scale-105 transition-transform duration-300'
-                />
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
-                <div className='absolute bottom-0 left-0 right-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300'>
-                  <h3 className='text-white font-semibold text-lg mb-1 sm:text-base'>
-                    {member.name}
-                  </h3>
-                  <p className='text-white/90 text-sm sm:text-xs'>
-                    {member.position}
-                  </p>
-                </div>
-              </motion.div>
-            </motion.li>
-          ))}
+                <motion.div
+                  className='aspect-[3/4] rounded-2xl overflow-hidden'
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Image
+                    fill
+                    src={member.photoUrl}
+                    alt={member.name}
+                    className='object-cover object-center group-hover:scale-105 transition-transform duration-300'
+                  />
+                  <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                  <div className='absolute bottom-0 left-0 right-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300'>
+                    <h3 className='text-white font-semibold text-lg mb-1 sm:text-base'>
+                      {member.name}
+                    </h3>
+                    <p className='text-white/90 text-sm sm:text-xs'>
+                      {member.position}
+                    </p>
+                  </div>
+                </motion.div>
+              </motion.li>
+            ))}
         </ul>
       </div>
     </>

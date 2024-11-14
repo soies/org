@@ -143,7 +143,7 @@ export default function AlumniList() {
     );
 
   return (
-    <section className='space-y-6 p-4 bg-slate-200'>
+    <section className='space-y-6 p-4 bg-slate-200 h-screen'>
       <div className='flex items-center justify-between'>
         <h1 className='text-2xl font-semibold'>Alumni List</h1>
         <div className='relative'>
