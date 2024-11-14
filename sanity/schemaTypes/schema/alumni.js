@@ -10,11 +10,13 @@ export const alumni = {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: "graduationYear",
-      title: "Graduation Year",
+      name: "Batch",
+      title: "Batch Year (B.S.)",
       type: "number",
       validation: (Rule) =>
-        Rule.required().min(1900).max(new Date().getFullYear()),
+        Rule.required()
+          .min(2020)
+          .max(new Date().getFullYear() + 57), // 2000 B.S. to current year + 57 (2057 B.S.)
     },
     {
       name: "email",

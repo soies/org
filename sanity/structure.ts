@@ -21,6 +21,14 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title("Content")
     .items([
+      // Hero Section
+      S.listItem()
+        .title("Hero")
+        .icon(Tablet)
+        .child(
+          S.documentList().title("Hero Section").filter('_type == "hero"')
+        ),
+
       // Notices Section
       S.listItem()
         .title("Notices")
