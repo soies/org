@@ -1,34 +1,37 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
-import { fetchTeamData } from "@/lib/fetch/sanity.action";
 import { TeamMember } from "@/lib/types";
+import { client } from "@/sanity/lib/client";
+import { TEAMS_QUERY } from "@/sanity/lib/queries";
+import { useQuery } from "@tanstack/react-query";
+import { X } from "lucide-react"; // Using Lucide icon instead of custom SVG
+
+const fetchTeams = async (): Promise<TeamMember[]> => {
+  return await client.fetch(TEAMS_QUERY);
+};
 
 export default function TeamMemberPage() {
-  const [teams, setTeams] = useState<TeamMember[]>([]);
   const [active, setActive] = useState<TeamMember | null>(null);
-  const [loading, setLoading] = useState(true);
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    async function loadTeamData() {
-      try {
-        const data = await fetchTeamData();
-        setTeams(data);
-      } catch (error) {
-        console.error("Failed to fetch team data:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  const {
+    data: teams = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["teams"],
+    queryFn: fetchTeams,
+    staleTime: 1000 * 60 * 60, // Cache data for 60 minutes
+  });
 
-    loadTeamData();
-  }, []);
+  useOutsideClick(ref, () => setActive(null));
 
-  useEffect(() => {
+  // Handle keyboard event for "Escape" key
+  React.useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setActive(null);
@@ -45,12 +48,22 @@ export default function TeamMemberPage() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [active]);
 
-  useOutsideClick(ref, () => setActive(null));
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className='flex justify-center items-center min-h-[400px]'>
         <div className='animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-neutral-900'></div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className='max-w-7xl mx-auto px-4 text-center py-12'>
+        <div className='flex flex-col items-center justify-center p-8 border border-gray-200 dark:border-gray-800 rounded-xl'>
+          <p className='text-red-500'>
+            Failed to load team data. Please try again later.
+          </p>
+        </div>
       </div>
     );
   }
@@ -83,7 +96,7 @@ export default function TeamMemberPage() {
               className='flex absolute top-4 right-4 lg:top-8 lg:right-8 items-center justify-center bg-white/90 backdrop-blur-sm rounded-full h-8 w-8 shadow-lg'
               onClick={() => setActive(null)}
             >
-              <CloseIcon />
+              <X className='h-4 w-4 text-black' />
             </motion.button>
 
             <motion.div
@@ -167,30 +180,3 @@ export default function TeamMemberPage() {
     </>
   );
 }
-
-const CloseIcon = () => {
-  return (
-    <motion.svg
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{
-        opacity: 0,
-        transition: { duration: 0.05 },
-      }}
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      className='h-4 w-4 text-black'
-    >
-      <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-      <path d='M18 6l-12 12' />
-      <path d='M6 6l12 12' />
-    </motion.svg>
-  );
-};

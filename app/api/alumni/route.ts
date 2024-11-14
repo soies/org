@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { client } from "@/sanity/lib/client";
 
+export const runtime = "edge";
+
 export async function GET(request: Request) {
   try {
     // Parse query parameters for pagination and sorting

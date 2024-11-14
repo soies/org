@@ -1,30 +1,27 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { fetchJournal } from "@/lib/fetch/sanity.action";
 import { TJournal } from "@/lib/types";
+import { client } from "@/sanity/lib/client";
+import { JOURNAL_QUERY } from "@/sanity/lib/queries";
+import { useQuery } from "@tanstack/react-query";
+import { BookX, RefreshCw } from "lucide-react"; // Import Lucide icons
+
+const fetchJournals = async (): Promise<TJournal[]> => {
+  return await client.fetch(JOURNAL_QUERY);
+};
 
 const JournalList = () => {
-  const [journals, setJournals] = useState<TJournal[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const response = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchJournal();
-        setJournals(data);
-      } catch (err) {
-        setError("Failed to load journals. Please try again later.");
-        console.error("Error fetching journals:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    response();
-  }, []);
+  const {
+    data: journals,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["journals"],
+    queryFn: fetchJournals,
+    staleTime: 1000 * 60 * 60 * 24,
+    retry: 2,
+  });
 
   if (isLoading) {
     return (
@@ -40,41 +37,31 @@ const JournalList = () => {
       </div>
     );
   }
-  // Check if magazines array is empty or null
-  if (!journals || journals.length === 0) {
+
+  if (isError) {
     return (
-      <div className='max-w-2xl mx-auto w-full p-4 text-center'>
+      <div className='max-w-2xl mx-auto w-full p-4 text-center text-red-500'>
         <div className='flex flex-col items-center justify-center p-8 border border-gray-200 dark:border-gray-800 rounded-xl'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            className='w-12 h-12 text-gray-400 mb-4'
-          >
-            <path d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'></path>
-            <path d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'></path>
-          </svg>
-          <h3 className='text-lg font-medium text-gray-900 dark:text-gray-100 mb-2'>
-            No Journals Found
-          </h3>
-          <p className='text-gray-500 dark:text-gray-400'>
-            There are currently no journals available in the system.
+          <RefreshCw className='w-12 h-12 mb-4 text-red-500' />
+          <h3 className='text-lg font-medium mb-2'>Failed to Load Journals</h3>
+          <p className='text-gray-600 dark:text-gray-400'>
+            There was an error loading the journals. Please try again later.
           </p>
         </div>
       </div>
     );
   }
 
-  if (error) {
+  if (!journals || journals.length === 0) {
     return (
-      <div className='max-w-2xl mx-auto w-full p-4 text-center text-red-500'>
-        {error}
+      <div className='max-w-2xl mx-auto w-full p-4 text-center'>
+        <div className='flex flex-col items-center justify-center p-8 border border-gray-200 dark:border-gray-800 rounded-xl'>
+          <BookX className='w-12 h-12 mb-4 text-gray-400 dark:text-gray-600' />
+          <h3 className='text-lg font-medium mb-2'>No Journals Found</h3>
+          <p className='text-gray-600 dark:text-gray-400'>
+            There are currently no journals available. Please check back later.
+          </p>
+        </div>
       </div>
     );
   }

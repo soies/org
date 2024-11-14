@@ -1,7 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { fetchMagazines } from "@/lib/fetch/sanity.action";
+import { useQuery } from "@tanstack/react-query";
+import { client } from "@/sanity/lib/client";
+import { MAGAZINES_QUERY } from "@/sanity/lib/queries";
+
 type Magazine = {
   _id: string;
   title: string;
@@ -11,27 +14,22 @@ type Magazine = {
   resources: string;
 };
 
+const fetchMagazines = async (): Promise<Magazine[]> => {
+  const data = await client.fetch(MAGAZINES_QUERY);
+  return data;
+};
+
 const IndustrialVisionList = () => {
-  const [magazines, setMagazines] = useState<Magazine[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const response = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchMagazines();
-        setMagazines(data);
-      } catch (err) {
-        setError("Failed to load magazines. Please try again later.");
-        console.error("Error fetching magazines:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    response();
-  }, []);
+  const {
+    data: magazines,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["magazines"],
+    queryFn: fetchMagazines,
+    staleTime: 1000 * 60 * 60 * 24, // Cache data for 5 minutes
+  });
 
   if (isLoading) {
     return (
@@ -48,15 +46,15 @@ const IndustrialVisionList = () => {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className='max-w-2xl mx-auto w-full p-4 text-center text-red-500'>
-        {error}
+        {error instanceof Error ? error.message : "Failed to load magazines."}
       </div>
     );
   }
 
-  const sortedMagazines = [...magazines].sort((a, b) => {
+  const sortedMagazines = [...magazines!].sort((a, b) => {
     const volA = parseInt(a.title.split("Vol ")[1]);
     const volB = parseInt(b.title.split("Vol ")[1]);
     return volA - volB;
