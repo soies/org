@@ -1,13 +1,20 @@
 import { Globe, Instagram, Linkedin, Mail, Phone, Youtube } from "lucide-react";
 import React from "react";
 import { Separator } from "./ui/separator";
+import Image from "next/image";
 
 const Footer = () => {
   return (
     <footer className='bg-slate-50 text-gray-900 py-12 px-4'>
       <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         <div className='flex items-center mb-4'>
-          <img src='/soies.svg' alt='SOIES Logo' className='h-12 mr-4' />
+          <Image
+            src='/soies.svg'
+            alt='SOIES Logo'
+            height={80}
+            width={80}
+            className=' mr-4'
+          />
           <h2 className='text-2xl font-bold'>
             SOCIETY OF INDUSTRIAL ENGINEERING STUDENTS (SOIES) NEPAL
           </h2>

@@ -29,6 +29,7 @@ export function EventSection() {
   } = useQuery({
     queryKey: ["events"],
     queryFn: fetchEvents,
+    staleTime: 1000 * 60 * 60 * 24,
     retry: 2,
   });
 
@@ -40,7 +41,7 @@ export function EventSection() {
     title: formatDate(event.eventDate), // Format the eventDate to YYYY-MM-DD
     content: (
       <div>
-        <p className='text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8'>
+        <p className='text-neutral-800 dark:text-neutral-200 text-lg md:text-xl font-semibold font-mono mb-8'>
           {event.title}
         </p>
         <div className='grid grid-cols-2 gap-4'>
