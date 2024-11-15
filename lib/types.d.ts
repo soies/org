@@ -57,7 +57,7 @@ export type TContentBlock = {
     marks?: string[];
   }>;
   style?: string; // E.g., "normal", "h1", "h2"
-  markDefs?: Array<{ _type: string; [key: string]: any }>;
+  markDefs?: Array<{ _type: string; [key: string] }>;
 };
 
 // Image type
