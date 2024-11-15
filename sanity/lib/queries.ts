@@ -45,3 +45,12 @@ export const ALUMNI_QUERY = ({ limit }: { limit?: number }) => {
 }
 `);
 };
+
+export const EVENTS_QUERY =
+  defineQuery(`*[_type == "event"] | order(eventDate asc) {
+    _id,
+    title,
+    eventDate,
+    "images": images[].asset->url,
+
+  }`);

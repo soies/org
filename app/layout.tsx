@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/header";
 import Providers from "@/components/provider/react-query";
+import Footer from "@/components/footer";
+import { Separator } from "@/components/ui/separator";
 // Load custom fonts
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,6 +36,8 @@ export default function RootLayout({
         <Providers>
           <Header />
           <main>{children}</main>
+          <Separator className='my-4' />
+          <Footer />
         </Providers>
       </body>
     </html>

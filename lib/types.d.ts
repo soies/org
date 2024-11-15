@@ -16,7 +16,7 @@ export type Magazine = {
   resources: string;
 };
 
-type TJournal = {
+export type TJournal = {
   _id: string;
   title: string;
   issueNumber: string;
@@ -32,4 +32,40 @@ export type TNotice = {
   pdf?: string;
   imageUrl?: string;
   link?: string;
+};
+
+export type TEvent = {
+  _id: string;
+  eventDate: string;
+  title: string; // Event title
+  description: string; // Short description
+  content?: Array<TContentBlock | TEventImage>; // Array of rich text or images
+  images?: string[]; // Array of exactly 4 preview images
+  cta?: string; // Optional call-to-action URL
+  slug: {
+    _type: "slug";
+    current: string; // Slug string
+  };
+};
+
+// Rich text block content
+export type TContentBlock = {
+  _type: "block";
+  children: Array<{
+    _type: string;
+    text: string;
+    marks?: string[];
+  }>;
+  style?: string; // E.g., "normal", "h1", "h2"
+  markDefs?: Array<{ _type: string; [key: string]: any }>;
+};
+
+// Image type
+export type TEventImage = {
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
+  caption?: string; // Optional caption for the image
 };
