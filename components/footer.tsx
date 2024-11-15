@@ -4,114 +4,107 @@ import { Separator } from "./ui/separator";
 
 const Footer = () => {
   return (
-    <footer className=' text-black py-8 px-4 font-semibold'>
+    <footer className='bg-slate-50 text-gray-900 py-12 px-4'>
       <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        {/* Contact Information */}
-        <div>
-          <h2 className='text-lg font-semibold mb-4'>
+        <div className='flex items-center mb-4'>
+          <img src='/soies.svg' alt='SOIES Logo' className='h-12 mr-4' />
+          <h2 className='text-2xl font-bold'>
             SOCIETY OF INDUSTRIAL ENGINEERING STUDENTS (SOIES) NEPAL
           </h2>
-          <p className='mb-2'>
-            Institute of Engineering Thapathali Campus, Thapathali, Kathmandu,
-            Nepal
-          </p>
-          <p className='mb-2 flex items-center'>
-            <Phone className='mr-2' /> 9840257131
-          </p>
-          <p className='mb-2 flex items-center'>
-            <Mail className='mr-2' /> mail@soiesnepal.org.np
-          </p>
-          <p className='flex items-center'>
-            <Globe className='mr-2' /> www.soiesnepal.org.np
-          </p>
         </div>
-
-        {/* Quick Links */}
         <div>
-          <h3 className='text-lg font-semibold mb-4'>Quick Links</h3>
-          <ul className=''>
-            <li className='mb-2'>
+          <div className='flex items-start mb-4'>
+            <div className='mr-4'>
+              <Phone className='text-2xl' />
+            </div>
+            <div>
+              <p className='font-semibold'>Phone</p>
+              <p>9840257131</p>
+            </div>
+          </div>
+          <div className='flex items-start mb-4'>
+            <div className='mr-4'>
+              <Mail className='text-2xl' />
+            </div>
+            <div>
+              <p className='font-semibold'>Email</p>
+              <p>mail@soiesnepal.org.np</p>
+            </div>
+          </div>
+          <div className='flex items-start mb-4'>
+            <div className='mr-4'>
+              <Globe className='text-2xl' />
+            </div>
+            <div>
+              <p className='font-semibold'>Website</p>
+              <p>www.soiesnepal.org.np</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 className='text-2xl font-bold mb-4'>Quick Links</h3>
+          <ul className='space-y-2'>
+            <li>
               <a
                 href='https://www.soiesnepal.org.np'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='hover:text-gray-400'
+                className='hover:text-gray-600'
               >
                 Official Website
               </a>
             </li>
-            <li className='mb-2'>
+            <li>
               <a
                 href='https://www.instagram.com/soies_nepal'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='hover:text-gray-400'
+                className='hover:text-gray-600'
               >
                 Instagram
               </a>
             </li>
-            <li className='mb-2'>
+            <li>
               <a
                 href='https://linkedin.com/in/soies-nepal-18984b280/'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='hover:text-gray-400'
+                className='hover:text-gray-600'
               >
                 LinkedIn
               </a>
             </li>
-            <li className='mb-2'>
+            <li>
               <a
                 href='https://www.youtube.com/@SOIES_nepal'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='hover:text-gray-400'
+                className='hover:text-gray-600'
               >
                 YouTube
               </a>
             </li>
           </ul>
         </div>
-
-        {/* Social Media Icons */}
         <div className='flex items-center space-x-6'>
           <a
             href='https://linkedin.com/in/soies-nepal-18984b280/'
-            target='_blank'
-            rel='noopener noreferrer'
-            aria-label='LinkedIn'
-            className='text-2xl hover:text-gray-400'
+            className='text-2xl hover:text-gray-600'
           >
             <Linkedin />
           </a>
           <a
             href='https://www.instagram.com/soies_nepal'
-            target='_blank'
-            rel='noopener noreferrer'
-            aria-label='Instagram'
-            className='text-2xl hover:text-gray-400'
+            className='text-2xl hover:text-gray-600'
           >
             <Instagram />
           </a>
           <a
             href='https://www.youtube.com/@SOIES_nepal'
-            target='_blank'
-            rel='noopener noreferrer'
-            aria-label='YouTube'
-            className='text-2xl hover:text-gray-400'
+            className='text-2xl hover:text-gray-600'
           >
             <Youtube />
           </a>
         </div>
       </div>
-
-      {/* Bottom Section */}
       <div className='mt-8 text-center text-gray-500'>
         <p>
           &copy; {new Date().getFullYear()} SOIES Nepal. All rights reserved.
         </p>
       </div>
-      <Separator className='my-4' />
+      <Separator className='my-8 border-gray-300' />
     </footer>
   );
 };
