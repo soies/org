@@ -35,7 +35,7 @@ const Footer = () => {
             </div>
             <div>
               <p className='font-semibold'>Email</p>
-              <p>mail@soiesnepal.org.np</p>
+              <p>info.soiesnepal@gmail.com</p>
             </div>
           </div>
           <div className='flex items-start mb-4'>

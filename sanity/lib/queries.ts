@@ -39,6 +39,7 @@ export const NOTICES_QUERY = defineQuery(`*[_type == "notice" ]{
 
 export const ALUMNI_QUERY = ({ limit }: { limit?: number }) => {
   defineQuery(`*[_type == "alumni"] | order(graduationYear asc)[0...${limit}] {
+  _id,
   name,
   graduationYear,
   major
