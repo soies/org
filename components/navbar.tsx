@@ -13,9 +13,9 @@ import { useState, useEffect } from "react";
 
 const menuItems = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/#about", label: "About" },
   { href: "/notice", label: "Notice" },
-  { href: "/project", label: "Project" },
+  { href: "/#event", label: "Events" },
 ];
 
 export default function NavBar() {
@@ -26,7 +26,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <header className='flex h-24 items-center px-4 md:px-6  sticky top-0 z-50 bg-slate-100 dark:bg-gray-950'>
+    <header className='flex h-24 items-center px-4 md:px-6  sticky top-0 z-50 bg-slate-50 dark:bg-gray-950'>
       {/* Logo */}
       <Link
         href='/'

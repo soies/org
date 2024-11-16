@@ -149,9 +149,9 @@ export const structure = (S: StructureBuilder) =>
 
       // Projects Section
       S.listItem()
-        .title("Projects")
+        .title("Events")
         .icon(FolderKanban)
-        .child(S.documentList().title("Projects").filter('_type == "project"')),
+        .child(S.documentList().title("Events").filter('_type == "Events"')),
 
       // Team Section
       S.listItem()

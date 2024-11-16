@@ -22,7 +22,6 @@ export const alumni = {
       name: "email",
       title: "Email",
       type: "string",
-      validation: (Rule) => Rule.required().email(),
     },
     {
       name: "currentPosition",

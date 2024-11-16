@@ -18,9 +18,9 @@ export async function GET(request: Request) {
     // Fetch alumni data with sorting and pagination
     const alumni = await client.fetch(
       `*[_type == "alumni"] | order(${sortBy} ${order})[${start}...${start + limit}]{
+      _id,
         name,
         Batch,
-        email,
         currentPosition,
       }`
     );

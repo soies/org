@@ -31,9 +31,9 @@ import { Search, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 interface Alumnus {
+  _id: string;
   name: string;
   Batch: number;
-  email: string;
   currentPosition?: string;
   description?: string;
 }
@@ -121,10 +121,6 @@ export default function AlumniList() {
         <p className='text-sm'>{alumnus.currentPosition || "N/A"}</p>
       </div>
       <div>
-        <Label>Email</Label>
-        <p className='text-sm'>{alumnus.email}</p>
-      </div>
-      <div>
         <Label>Batch</Label>
         <p className='text-sm'>{alumnus.Batch}</p>
       </div>
@@ -143,7 +139,7 @@ export default function AlumniList() {
     );
 
   return (
-    <section className='space-y-6 p-4 bg-slate-200'>
+    <section className='space-y-6 p-4 bg-slate-200 h-screen'>
       <div className='flex items-center justify-between'>
         <h1 className='text-2xl font-semibold'>Alumni List</h1>
         <div className='relative'>
@@ -193,7 +189,6 @@ export default function AlumniList() {
           <TableRow>
             <TableHead className='w-[240px]'>Name</TableHead>
             <TableHead>Current Position</TableHead>
-            <TableHead>Email</TableHead>
             <TableHead className='text-right'>Batch</TableHead>
           </TableRow>
         </TableHeader>
@@ -206,12 +201,12 @@ export default function AlumniList() {
             </TableRow>
           ) : (
             data?.data.map((alumnus) => (
-              <Dialog key={alumnus.email}>
+              <Dialog key={alumnus._id}>
                 <DialogTrigger asChild>
                   <TableRow className='cursor-pointer hover:bg-slate-100'>
                     <TableCell>{alumnus.name}</TableCell>
                     <TableCell>{alumnus.currentPosition || "N/A"}</TableCell>
-                    <TableCell>{alumnus.email}</TableCell>
+
                     <TableCell className='text-right'>
                       {alumnus.Batch}
                     </TableCell>
