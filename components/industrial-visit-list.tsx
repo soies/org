@@ -55,9 +55,12 @@ const IndustrialVisionList = () => {
   }
 
   const sortedMagazines = [...magazines!].sort((a, b) => {
-    const volA = parseInt(a.title.split("Vol ")[1]);
-    const volB = parseInt(b.title.split("Vol ")[1]);
-    return volA - volB;
+    // Extract numbers: "Vol 10" -> 10, "Vol 2" -> 2
+    const volA = parseInt(a.title.split("Vol ")[1]) || 0;
+    const volB = parseInt(b.title.split("Vol ")[1]) || 0;
+    
+    // Sort Descending (Highest number first)
+    return volB - volA; 
   });
 
   return (
