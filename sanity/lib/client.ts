@@ -6,7 +6,6 @@ export const client = createClient({
   dataset,
   apiVersion,
   useCdn: true,
-  // This MUST be inside the curly braces of createClient
   stega: {
     enabled: false, 
   },
