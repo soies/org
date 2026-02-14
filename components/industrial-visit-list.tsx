@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
 import { client } from "@/sanity/lib/client";
+import { useQuery } from "@tanstack/react-query";
 import { MAGAZINES_QUERY } from "@/sanity/lib/queries";
 
 type Magazine = {
@@ -15,7 +15,8 @@ type Magazine = {
 };
 
 const fetchMagazines = async (): Promise<Magazine[]> => {
-  const data = await client.fetch(MAGAZINES_QUERY);
+  // Use client.fetch directly with the query string
+  const data = await client.fetch<Magazine[]>(MAGAZINES_QUERY);
   return data;
 };
 
@@ -28,7 +29,7 @@ const IndustrialVisionList = () => {
   } = useQuery({
     queryKey: ["magazines"],
     queryFn: fetchMagazines,
-    staleTime: 1000 * 60 * 60 * 24, // Cache data for 5 minutes
+    staleTime: 1000 * 60 * 60 * 24, 
   });
 
   if (isLoading) {
@@ -46,7 +47,8 @@ const IndustrialVisionList = () => {
     );
   }
 
-  if (isError) {
+  // Safety check: if data is undefined but not loading/error
+  if (isError || !magazines) {
     return (
       <div className='max-w-2xl mx-auto w-full p-4 text-center text-red-500'>
         {error instanceof Error ? error.message : "Failed to load magazines."}
@@ -54,12 +56,10 @@ const IndustrialVisionList = () => {
     );
   }
 
-  const sortedMagazines = [...magazines!].sort((a, b) => {
-    // Extract numbers: "Vol 10" -> 10, "Vol 2" -> 2
+  // Sorting logic with optional chaining safety
+  const sortedMagazines = [...magazines].sort((a, b) => {
     const volA = parseInt(a.title.split("Vol ")[1]) || 0;
     const volB = parseInt(b.title.split("Vol ")[1]) || 0;
-    
-    // Sort Descending (Highest number first)
     return volB - volA; 
   });
 
@@ -71,13 +71,13 @@ const IndustrialVisionList = () => {
           className='p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl mb-4 border border-gray-100 dark:border-gray-800'
         >
           <div className='flex gap-4 flex-col md:flex-row'>
-            <div className='relative'>
+            <div className='relative h-40 w-28 md:h-32 md:w-24'>
               <Image
-                width={100}
-                height={140}
+                fill
                 src={magazine.cover}
                 alt={magazine.title}
-                className='h-40 w-28 md:h-32 md:w-24 rounded-lg object-cover shadow-md'
+                className='rounded-lg object-cover shadow-md'
+                sizes="(max-width: 768px) 112px, 96px"
                 priority
               />
             </div>
@@ -99,7 +99,6 @@ const IndustrialVisionList = () => {
             href={magazine.resources}
             target='_blank'
             rel='noopener noreferrer'
-            download
             className='px-6 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-blue-500 hover:text-white text-black mt-4 md:mt-0 transition-colors duration-200 flex items-center gap-2'
           >
             <svg

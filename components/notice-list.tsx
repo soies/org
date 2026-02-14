@@ -8,7 +8,8 @@ import { NOTICES_QUERY } from "@/sanity/lib/queries";
 import { TNotice } from "@/lib/types";
 
 const fetchnotices = async (): Promise<TNotice[]> => {
-  return await client.fetch(NOTICES_QUERY);
+  // Added generic type for safer fetching
+  return await client.fetch<TNotice[]>(NOTICES_QUERY);
 };
 
 const NoticeList = () => {
@@ -52,21 +53,21 @@ const NoticeList = () => {
   }
 
   return (
-    <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-16'>
+    <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-16'>
       {notices.map((notice) => (
         <li
           key={notice._id}
-          className='bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]'
+          className='bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] flex flex-col justify-between'
         >
-          <div className='flex flex-col items-center md:items-start gap-4'>
+          <div className='flex flex-col gap-4'>
             {notice.imageUrl && (
-              <div className='relative w-full h-40 md:h-32 flex-shrink-0 rounded-lg overflow-hidden shadow-sm'>
+              <div className='relative w-full h-48 rounded-lg overflow-hidden shadow-sm'>
                 <Image
-                  width={100}
-                  height={140}
                   src={notice.imageUrl}
                   alt={notice.title}
-                  className='h-40 w-full rounded-lg object-cover shadow-md'
+                  fill
+                  className='object-cover'
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority
                 />
               </div>
@@ -83,14 +84,13 @@ const NoticeList = () => {
             </div>
           </div>
 
-          {/* Preview Button Section */}
-          <div className='mt-4'>
+          <div className='mt-6'>
             {notice.pdf ? (
               <a
                 href={notice.pdf}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all'
+                className='inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all w-full justify-center'
               >
                 <FileText className='w-4 h-4' />
                 View PDF
@@ -100,13 +100,13 @@ const NoticeList = () => {
                 href={notice.imageUrl}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all'
+                className='inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all w-full justify-center'
               >
                 <ImageIcon className='w-4 h-4' />
                 View Image
               </a>
             ) : (
-              <p className='text-gray-500 italic'>No preview available</p>
+              <p className='text-gray-500 italic text-center text-sm'>No preview available</p>
             )}
           </div>
         </li>
