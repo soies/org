@@ -1,13 +1,11 @@
-// Querying with "sanityFetch" will keep content automatically updated
-// Before using it, import and render "<SanityLive />" in your layout, see
-// https://github.com/sanity-io/next-sanity#live-content-api for more information.
-import { defineLive } from "next-sanity";
+// Temporarily disabled to fix Vercel build error 'getDraftId'
+// import { defineLive } from "next-sanity";
 import { client } from './client'
 
-export const { sanityFetch, SanityLive } = defineLive({ 
-  client: client.withConfig({ 
-    // Live content is currently only available on the experimental API
-    // https://www.sanity.io/docs/api-versioning
-    apiVersion: 'vX' 
-  }) 
-});
+// We create a dummy sanityFetch that just uses the regular client
+export const sanityFetch = async ({ query, params = {} }: any) => {
+  return client.fetch(query, params);
+};
+
+// We create a dummy component so your layout doesn't crash
+export const SanityLive = () => null;
