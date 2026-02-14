@@ -1,4 +1,4 @@
-import { createClient } from '@sanity/client'
+import { createClient } from '@sanity/client' // <--- MUST be this
 import { apiVersion, dataset, projectId } from '../env'
 
 export const client = createClient({
